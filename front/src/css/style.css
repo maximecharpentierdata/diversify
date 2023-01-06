@@ -1,0 +1,19 @@
+.css-12w0qpk[data-testid="column"] {
+    border-radius: 10px;
+    text-align: center;
+    background-color: #0968a2;
+    color: white;
+}
+
+.css-1r6slb0[data-testid="column"] {
+    border-radius: 10px;
+    text-align: center;
+    background-color: #124681;
+    color: white;
+}
+
+.transfer {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #74dd95;
+}

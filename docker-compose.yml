@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  api:
+    container_name: api
+    restart: always
+    build:
+      context: api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api/src:/app
+      - ./conf:/conf
+  front:
+    container_name: front
+    restart: always
+    build:
+      context: front
+    ports:
+      - "80:80"
+    volumes:
+      - ./front/src:/app
+      - ./conf:/conf
+  mongodb:
+    container_name: db
+    restart: always
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo-js:ro
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: admin
+    command: mongod --quiet
