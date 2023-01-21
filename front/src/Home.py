@@ -1,5 +1,5 @@
 import streamlit as st
-from utils import fetch_assets, load_asset_classes
+from utils import fetch_assets, load_asset_classes, make_request
 import plotly.express as px
 import pandas as pd
 

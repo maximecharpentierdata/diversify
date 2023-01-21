@@ -1,10 +1,31 @@
 import datetime
+from bson import json_util
 
 import yaml
 from pymongo import MongoClient
+from fastapi import APIRouter, responses, Cookie
+
+from io import StringIO
 
 with open("/conf/project_config.yml", "r") as f:
     PROJECT_CONFIG = yaml.safe_load(f)
+
+mongo_router = APIRouter(prefix="/mongo", tags=["mongo"])
+
+
+@mongo_router.get("/export")
+def export(session_id: str = Cookie()):
+    db = get_mongo_db(session_id)
+    assets = PROJECT_CONFIG.get("mongodb", {}).get("assets", "")
+    json_export = list(db[assets].find({}))
+    file = StringIO()
+    file.write(json_util.dumps(json_export))
+    return responses.StreamingResponse(
+        content=iter(file.getvalue()),
+        headers={
+            "Content-Disposition": "attachment; filename=export.diversify"
+        },
+    )
 
 
 def get_mongo_db(session_id) -> MongoClient:

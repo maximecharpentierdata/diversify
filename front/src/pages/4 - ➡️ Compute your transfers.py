@@ -46,6 +46,10 @@ def show_class_rate(class_rate: dict):
 
 def show_class_rates(class_rates: list[dict]):
     cols = st.columns(len(class_rates))
+    asset_classes = load_asset_classes()
+    class_rates = sorted(
+        class_rates, key=lambda x: asset_classes.index(x["class_name"])
+    )
 
     for n, col in enumerate(cols):
         with col:
