@@ -1,0 +1,13 @@
+mongodb:
+  user: diversify
+  password: psswd
+  db: diversify
+  assets: assets
+  allocation: allocation
+  host: db
+  port: 27017
+config:
+  asset_classes:
+    - Fonds Euros
+    - Actions
+    - Immobilier
