@@ -13,21 +13,6 @@ with open("/conf/project_config.yml", "r") as f:
 mongo_router = APIRouter(prefix="/mongo", tags=["mongo"])
 
 
-@mongo_router.get("/export")
-def export(session_id: str = Cookie()):
-    db = get_mongo_db(session_id)
-    assets = PROJECT_CONFIG.get("mongodb", {}).get("assets", "")
-    json_export = list(db[assets].find({}))
-    file = StringIO()
-    file.write(json_util.dumps(json_export))
-    return responses.StreamingResponse(
-        content=iter(file.getvalue()),
-        headers={
-            "Content-Disposition": "attachment; filename=export.diversify"
-        },
-    )
-
-
 def get_mongo_db(session_id) -> MongoClient:
     host = PROJECT_CONFIG.get("mongodb", {}).get("host")
     port = PROJECT_CONFIG.get("mongodb", {}).get("port")
@@ -36,7 +21,10 @@ def get_mongo_db(session_id) -> MongoClient:
     # db = PROJECT_CONFIG.get("mongodb", {}).get("db")
 
     client = MongoClient(
-        host=host, port=port, username=user, password=password
+        host=f"mongodb://{host}/{session_id}",
+        port=port,
+        username=user,
+        password=password,
     )
 
     db = client[session_id]

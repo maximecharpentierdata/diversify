@@ -1,7 +1,7 @@
 db.createUser(
     {
         user: "diversify",
-        pwd: "psswd",
+        pwd: "password",
         roles: [
             {
                 role: "readWrite",
@@ -9,4 +9,4 @@ db.createUser(
             }
         ]
     }
-)
+);

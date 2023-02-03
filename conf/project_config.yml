@@ -1,6 +1,6 @@
 mongodb:
   user: diversify
-  password: psswd
+  password: password
   db: diversify
   assets: assets
   allocation: allocation
