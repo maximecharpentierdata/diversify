@@ -1,10 +1,8 @@
-import unidecode
-
+import babel.numbers
 import requests
 import streamlit as st
+import unidecode
 import yaml
-
-import babel.numbers
 
 
 with open("/conf/project_config.yml", "r") as f:

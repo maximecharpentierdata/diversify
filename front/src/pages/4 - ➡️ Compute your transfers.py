@@ -1,11 +1,11 @@
 import streamlit as st
 
 from utils import (
+    format_currency,
     get_class_assets,
     load_asset_classes,
     make_request,
     update_asset_value,
-    format_currency,
 )
 
 

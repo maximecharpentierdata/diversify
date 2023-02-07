@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from utils import fetch_assets, load_asset_classes, format_currency
+from utils import fetch_assets, format_currency, load_asset_classes
 
 
 st.set_page_config(
