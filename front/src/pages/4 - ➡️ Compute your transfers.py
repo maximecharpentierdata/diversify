@@ -1,11 +1,12 @@
 import streamlit as st
 
 from utils import (
+    get_class_assets,
+    load_asset_classes,
     make_request,
     update_asset_value,
-    load_asset_classes,
-    get_class_assets,
 )
+
 
 st.title("Diversify - ➡️ Optimize your transfers")
 st.write("*Simple portfolio management app*")
@@ -26,7 +27,9 @@ def optimize_transfer(total_amount: int) -> dict | None:
         st.success("Transfers computed", icon="✅")
         return resp.json()
     else:
-        st.error(f"Error computing transfers: {resp.json()}", icon="❌")
+        st.error(
+            f"Error computing transfers: {resp.json()['detail']}", icon="❌"
+        )
 
 
 def choose_amount_module() -> int:
@@ -112,11 +115,13 @@ def update_values(asset_transfers: list[dict]):
 total_amount = choose_amount_module()
 
 if st.button("Compute transfers"):
-    transfers = optimize_transfer(total_amount)["results"]
-    show_transfers(transfers)
+    transfers = optimize_transfer(total_amount)
+    if transfers:
+        results = transfers["results"]
+        show_transfers(transfers)
 
-    st.button(
-        "Update all asset values",
-        on_click=update_values,
-        args=(transfers["asset_transfers"],),
-    )
+        st.button(
+            "Update all asset values",
+            on_click=update_values,
+            args=(transfers["asset_transfers"],),
+        )

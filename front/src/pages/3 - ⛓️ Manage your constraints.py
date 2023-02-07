@@ -1,12 +1,14 @@
 import time
 
 import streamlit as st
+
 from utils import (
     fetch_assets,
     get_class_assets,
     load_asset_classes,
     make_request,
 )
+
 
 st.title("Diversify - ⛓️ Manage your constraints")
 st.write("*Simple portfolio management app*")
@@ -51,6 +53,8 @@ def show_constraints():
                     on_click=delete_constraint,
                     args=(constraint["_id"],),
                 )
+    else:
+        st.warning("No constraints added yet")
 
 
 def upload_constraint(constraint: dict):
@@ -129,7 +133,7 @@ def add_constraint_module():
     classes = load_asset_classes()
 
     if not assets:
-        st.warning("No assets found")
+        st.warning("No assets found, please add some first")
     else:
         index = 0
         if "constrainted_assets" not in st.session_state:

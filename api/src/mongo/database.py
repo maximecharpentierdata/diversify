@@ -1,11 +1,10 @@
 import datetime
-from bson import json_util
 
 import yaml
-from pymongo import MongoClient
-from fastapi import APIRouter, responses, Cookie
 
-from io import StringIO
+from fastapi import APIRouter
+from pymongo import MongoClient
+
 
 with open("/conf/project_config.yml", "r") as f:
     PROJECT_CONFIG = yaml.safe_load(f)

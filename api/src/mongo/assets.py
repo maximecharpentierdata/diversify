@@ -1,14 +1,17 @@
 import logging
+
 from json import loads
 from typing import Optional
 
 import yaml
+
 from bson.json_util import dumps
 from fastapi import APIRouter, Cookie, HTTPException
 from pydantic import BaseModel, validator
 from pymongo.collection import Collection
 
 from .database import get_mongo_db
+
 
 assets_router = APIRouter(prefix="/assets", tags=["assets"])
 
@@ -109,9 +112,7 @@ def route_search_asset(
 
 
 @assets_router.put("/")
-def route_create_asset(
-    asset: Asset, session_id: str = Cookie()
-) -> dict | HTTPException:
+def route_create_asset(asset: Asset, session_id: str = Cookie()) -> dict:
     asset = asset.dict()
     if existing_asset(asset, session_id):
         raise HTTPException(
@@ -126,9 +127,7 @@ def route_create_asset(
 
 
 @assets_router.post("/")
-def route_update_asset_value(
-    asset: dict, session_id: str = Cookie()
-) -> dict | HTTPException:
+def route_update_asset_value(asset: dict, session_id: str = Cookie()) -> dict:
     asset_id = update_asset_value(asset, session_id)
     if not asset_id:
         raise HTTPException(
@@ -140,9 +139,7 @@ def route_update_asset_value(
 
 
 @assets_router.delete("/{asset_name}")
-def route_delete_asset(
-    asset_name: str, session_id: str = Cookie()
-) -> dict | HTTPException:
+def route_delete_asset(asset_name: str, session_id: str = Cookie()) -> dict:
     asset_id = delete_asset(asset_name, session_id)
     if not asset_id:
         raise HTTPException(

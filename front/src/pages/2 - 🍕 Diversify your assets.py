@@ -1,6 +1,8 @@
 import requests
 import streamlit as st
+
 from utils import fetch_assets, load_asset_classes, make_request
+
 
 st.title("Diversify - 🍕 Diversify your assets")
 st.write("*Simple portfolio management app*")

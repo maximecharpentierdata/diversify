@@ -1,7 +1,9 @@
-import streamlit as st
-from utils import fetch_assets, load_asset_classes, make_request
-import plotly.express as px
 import pandas as pd
+import plotly.express as px
+import streamlit as st
+
+from utils import fetch_assets, load_asset_classes, make_request
+
 
 st.set_page_config(
     page_title="Diversify - Simple portfolio management app",
@@ -61,16 +63,22 @@ def show_assets_allocation(assets: list[dict]):
         with col:
             with st.container():
                 df_asset_class = df[df["class_name"] == asset_class]
-                pie = px.pie(
-                    df_asset_class,
-                    values="value",
-                    names="name",
-                    title=asset_class,
-                    color_discrete_sequence=px.colors.sequential.dense,
-                )
-                st.plotly_chart(
-                    pie, use_container_width=True, use_container_height=True
-                )
+                if df_asset_class.empty:
+                    st.write(f"**{asset_class}**")
+                    st.write("No asset")
+                else:
+                    pie = px.pie(
+                        df_asset_class,
+                        values="value",
+                        names="name",
+                        title=asset_class,
+                        color_discrete_sequence=px.colors.sequential.dense,
+                    )
+                    st.plotly_chart(
+                        pie,
+                        use_container_width=True,
+                        use_container_height=True,
+                    )
 
 
 st.header("How to use this app ❓")
@@ -86,13 +94,19 @@ st.write(
 )
 
 st.write(
-    "3️⃣ Finally, you can see the next transactions you need to do to reach your diversification by clicking on the **Next transactions** tab"
+    "3️⃣ Finally, you can see the next transactions you need to perform to reach your diversification by clicking on the <a href='/Compute_your_transfers'>**Compute your transfers**</a> tab",
+    unsafe_allow_html=True,
 )
 
-st.header("Your current assets")
-show_all_assets(assets)
+if assets:
+    st.header("Your current assets")
+    show_all_assets(assets)
 
-st.header("Curent asset allocation")
-show_classes_allocation(assets)
+    st.header("Curent asset allocation")
+    show_classes_allocation(assets)
 
-show_assets_allocation(assets)
+    show_assets_allocation(assets)
+else:
+    st.warning(
+        "You don't have any asset yet. Add some by clicking on the **Manage your assets** tab"
+    )

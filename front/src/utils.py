@@ -4,6 +4,7 @@ import requests
 import streamlit as st
 import yaml
 
+
 with open("/conf/project_config.yml", "r") as f:
     PROJECT_CONFIG = yaml.safe_load(f)
 

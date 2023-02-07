@@ -4,6 +4,7 @@ from fastapi import Cookie, FastAPI, Request
 from mongo import allocation, assets, constraints, database
 from optimization import optimization
 
+
 app = FastAPI()
 
 app.include_router(assets.assets_router)

@@ -1,16 +1,18 @@
 import logging
+
 from json import loads
 from typing import Literal, Optional
 
 import yaml
+
 from bson import ObjectId
 from bson.json_util import dumps
 from fastapi import APIRouter, Cookie, HTTPException
 from pydantic import BaseModel, validator
 from pymongo.collection import Collection
 
-from .assets import get_assets_collection
 from .database import get_mongo_db
+
 
 constraints_router = APIRouter(prefix="/constraints", tags=["constraints"])
 
@@ -62,7 +64,7 @@ def route_insert_constraint(
 @constraints_router.get("/{constraint_id}")
 def route_get_constraint(
     constraint_id: str, session_id: str = Cookie()
-) -> dict | HTTPException:
+) -> dict:
     constraints_collection = get_constraints_collection(session_id)
     constraint = constraints_collection.find_one(
         {"_id": ObjectId(constraint_id)}

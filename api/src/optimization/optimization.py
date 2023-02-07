@@ -4,16 +4,21 @@ from mongo.assets import get_assets_collection
 from mongo.constraints import get_constraints_collection
 from optimization.utils import format_result, run_optimization, score_function
 
+
 optimization_router = APIRouter(prefix="/optimization", tags=["optimization"])
 
 
 @optimization_router.get("/")
-def route_optimize(
-    total_amount: int, session_id: str = Cookie()
-) -> dict | HTTPException:
+def route_optimize(total_amount: int, session_id: str = Cookie()) -> dict:
     assets = list(get_assets_collection(session_id).find())
     allocation = list(get_allocation_collection(session_id).find())
     constraints = list(get_constraints_collection(session_id).find())
+
+    if not assets and not allocation:
+        print("BAD")
+        raise HTTPException(
+            status_code=400, detail="Missing assets or allocation"
+        )
 
     result = run_optimization(
         assets=assets,
@@ -23,7 +28,7 @@ def route_optimize(
     )
 
     if not result.success:
-        return HTTPException(status_code=500)
+        raise HTTPException(status_code=500)
 
     transfer = result.x.astype(int).tolist()
 

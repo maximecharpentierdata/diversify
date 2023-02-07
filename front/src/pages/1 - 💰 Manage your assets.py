@@ -1,4 +1,5 @@
 import streamlit as st
+
 from utils import (
     delete_asset,
     get_class_assets,
@@ -6,6 +7,7 @@ from utils import (
     save_asset,
     update_asset_value,
 )
+
 
 st.title("Diversify - 💰 Manage your assets")
 st.write("*Simple portfolio management app*")

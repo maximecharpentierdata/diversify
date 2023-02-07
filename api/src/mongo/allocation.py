@@ -1,14 +1,17 @@
 import logging
+
 from json import loads
 from typing import Literal, Optional
 
 import yaml
+
 from bson.json_util import dumps
 from fastapi import APIRouter, Cookie
 from pydantic import BaseModel, validator
 from pymongo.collection import Collection
 
 from .database import get_mongo_db
+
 
 allocation_router = APIRouter(prefix="/allocation", tags=["allocation"])
 
