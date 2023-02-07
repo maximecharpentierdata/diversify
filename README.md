@@ -6,7 +6,7 @@ In **Diversify**, you can **add, update and delete** your assets and their value
 
 ## Local development
 
-**Diversify** is a lightweight app coded entirely in Python and contains two microservices: a backend API coded with `fastapi` and a frontend coded with `Streamlit`.
+**Diversify** is a lightweight app coded entirely in Python and contains two microservices: a backend API coded with `fastapi` and a frontend coded with `Streamlit`. The application is using a local MongoDB database to store the assets, the target allocation and the constraints.
 
 **Diversify** can be run locally using `docker compose` with the command:
 
