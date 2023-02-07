@@ -1,6 +1,6 @@
 # Diversify
 
-**Diversify** is a *simple portfolio management app*
+**Diversify** is a *simple portfolio management app* that you can use to ensure your financial portfolio diversification.
 
 In **Diversify**, you can **add, update and delete** your assets and their values. You can also specify a target diversification that you can to reach and some constraints, then, **Diversify** will compute for you the optimal transfers to perform to reach this allocation.
 
