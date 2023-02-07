@@ -14,7 +14,7 @@ def route_optimize(total_amount: int, session_id: str = Cookie()) -> dict:
     allocation = list(get_allocation_collection(session_id).find())
     constraints = list(get_constraints_collection(session_id).find())
 
-    if not assets and not allocation:
+    if not assets or not allocation:
         print("BAD")
         raise HTTPException(
             status_code=400, detail="Missing assets or allocation"

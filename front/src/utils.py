@@ -1,12 +1,22 @@
-import random
+import unidecode
 
 import requests
 import streamlit as st
 import yaml
 
+import babel.numbers
+
 
 with open("/conf/project_config.yml", "r") as f:
     PROJECT_CONFIG = yaml.safe_load(f)
+
+
+def format_currency(value: float) -> str:
+    return unidecode.unidecode(
+        babel.numbers.format_currency(
+            value, PROJECT_CONFIG.get("config", {}).get("currency")
+        )
+    )
 
 
 def make_request(

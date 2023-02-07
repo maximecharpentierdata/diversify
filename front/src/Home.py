@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from utils import fetch_assets, load_asset_classes, make_request
+from utils import fetch_assets, load_asset_classes, format_currency
 
 
 st.set_page_config(
@@ -28,7 +28,7 @@ def show_assets(assets: list[dict]):
                 asset = assets[k + i]
                 with cols[i]:
                     st.write(f"{asset.get('name')}")
-                    st.write(f"**{asset.get('value')}** €")
+                    st.write(f"**{format_currency(asset.get('value'))}**")
             except IndexError:
                 pass
 

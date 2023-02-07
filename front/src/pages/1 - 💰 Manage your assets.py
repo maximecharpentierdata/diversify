@@ -6,6 +6,7 @@ from utils import (
     load_asset_classes,
     save_asset,
     update_asset_value,
+    format_currency,
 )
 
 
@@ -49,7 +50,9 @@ def update_asset_value_page():
         )
 
         if asset_class and asset:
-            st.success(f"Current asset value: **{asset.get('value')} €**")
+            st.success(
+                f"Current asset value: **{format_currency(asset.get('value'))}**"
+            )
 
         st.write("Specify the new asset value below:")
         asset_value = st.number_input(

@@ -5,6 +5,7 @@ from utils import (
     load_asset_classes,
     make_request,
     update_asset_value,
+    format_currency,
 )
 
 
@@ -63,7 +64,7 @@ def show_asset_transfer(asset_transfer: dict):
     st.write(f"{asset_transfer.get('asset_name')}")
     st.write(
         f"{asset_transfer.get('initial_value')} + <span class='transfer'>"
-        f"{asset_transfer.get('transfer_value')}</span> → **{asset_transfer.get('new_value')} €**",
+        f"{asset_transfer.get('transfer_value')}</span> → **{format_currency(asset_transfer.get('new_value'))}**",
         unsafe_allow_html=True,
     )
     st.write(
@@ -85,7 +86,7 @@ def show_asset_transfers(asset_transfers: list[dict]):
                 pass
 
 
-def show_transfers(transfers: dict):
+def show_results(transfers: dict):
     asset_transfers = transfers["asset_transfers"]
     class_rates = transfers["class_rates"]
 
@@ -118,10 +119,10 @@ if st.button("Compute transfers"):
     transfers = optimize_transfer(total_amount)
     if transfers:
         results = transfers["results"]
-        show_transfers(transfers)
+        show_results(results)
 
         st.button(
             "Update all asset values",
             on_click=update_values,
-            args=(transfers["asset_transfers"],),
+            args=(results["asset_transfers"],),
         )

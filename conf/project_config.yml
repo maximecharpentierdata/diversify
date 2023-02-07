@@ -8,6 +8,7 @@ mongodb:
   port: 27017
 config:
   asset_classes:
-    - Fonds Euros
+    - Guaranteed funds
     - Actions
-    - Immobilier
+    - Real Estate
+  currency: USD

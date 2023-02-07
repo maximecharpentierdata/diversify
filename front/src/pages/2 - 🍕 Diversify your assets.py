@@ -43,7 +43,9 @@ def make_classes_allocation():
             st.write(f"**{asset_class}**")
             current_rate = get_rate(asset_class)
             if current_rate is not None:
-                st.write(f"*Current allocation*: {current_rate*100:.0f} %")
+                st.write(
+                    f"*Current target allocation*: {current_rate*100:.0f} %"
+                )
             new_rate = (
                 st.slider(
                     "Allocation",
