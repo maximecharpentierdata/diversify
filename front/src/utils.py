@@ -1,3 +1,4 @@
+import json
 import babel.numbers
 import requests
 import streamlit as st
@@ -114,3 +115,26 @@ def delete_asset(asset_name: str):
         st.success("Asset deleted", icon="✅")
     else:
         st.error("Error deleting asset!", icon="❌")
+
+
+def export_data():
+    endpoint = f"mongo/export/"
+
+    r = make_request(endpoint, method="GET")
+
+    if r.ok:
+        return json.dumps(r.json(), indent=4)
+    else:
+        st.error("Error exporting data!", icon="❌")
+
+
+def import_data(data: str):
+    endpoint = "mongo/import/"
+    data = json.loads(data)
+
+    r = make_request(endpoint, method="POST", data=data)
+
+    if r.ok:
+        st.success("Data imported", icon="✅")
+    else:
+        st.error("Error importing data!", icon="❌")

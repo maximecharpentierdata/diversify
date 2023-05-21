@@ -2,7 +2,13 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from utils import fetch_assets, format_currency, load_asset_classes
+from utils import (
+    fetch_assets,
+    format_currency,
+    load_asset_classes,
+    export_data,
+    import_data,
+)
 
 
 st.set_page_config(
@@ -100,6 +106,15 @@ st.write(
 
 if assets:
     st.header("Your current assets")
+    st.download_button(
+        "Export your data",
+        data=export_data(),
+        file_name="data.json",
+    )
+    uploaded_file = st.file_uploader("Upload your data", type="json")
+    if uploaded_file is not None:
+        import_data(uploaded_file.getvalue().decode("utf-8"))
+
     show_all_assets(assets)
 
     st.header("Curent asset allocation")

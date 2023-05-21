@@ -7,35 +7,16 @@ import yaml
 
 from bson.json_util import dumps
 from fastapi import APIRouter, Cookie, HTTPException
-from pydantic import BaseModel, validator
 from pymongo.collection import Collection
 
 from .database import get_mongo_db
-
+from .models import Asset
 
 assets_router = APIRouter(prefix="/assets", tags=["assets"])
 
 
 with open("/conf/project_config.yml", "r") as f:
     PROJECT_CONFIG = yaml.safe_load(f)
-
-
-class Asset(BaseModel):
-    name: str
-    class_name: str
-    value: Optional[float] = 0.0
-
-    @validator("class_name")
-    def check_class_name(cls, v):
-        assert v in PROJECT_CONFIG.get("config", {}).get(
-            "asset_classes"
-        ), f"Class {v} is not in the list of asset classes"
-        return v
-
-    @validator("name")
-    def check_name(cls, v):
-        assert v is not "", "Name cannot be empty"
-        return v
 
 
 def get_assets_collection(session_id) -> Collection:

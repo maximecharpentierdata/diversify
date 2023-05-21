@@ -1,33 +1,21 @@
 import logging
 
 from json import loads
-from typing import Literal, Optional
 
 import yaml
 
 from bson.json_util import dumps
 from fastapi import APIRouter, Cookie
-from pydantic import BaseModel, validator
 from pymongo.collection import Collection
 
 from .database import get_mongo_db
-
+from .models import Allocation
 
 allocation_router = APIRouter(prefix="/allocation", tags=["allocation"])
 
 
 with open("/conf/project_config.yml", "r") as f:
     PROJECT_CONFIG = yaml.safe_load(f)
-
-
-class AllocationStatement(BaseModel):
-    object_type: Literal["asset", "asset_class"]
-    object_name: str
-    rate: Optional[float] = None
-
-
-class Allocation(BaseModel):
-    allocation: list[AllocationStatement]
 
 
 def get_allocation_collection(session_id: str) -> Collection:

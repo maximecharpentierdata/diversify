@@ -1,36 +1,18 @@
 import logging
 
 from json import loads
-from typing import Literal, Optional
+from typing import Optional
 
-import yaml
 
 from bson import ObjectId
 from bson.json_util import dumps
 from fastapi import APIRouter, Cookie, HTTPException
-from pydantic import BaseModel, validator
 from pymongo.collection import Collection
 
 from .database import get_mongo_db
-
+from .models import Constraint
 
 constraints_router = APIRouter(prefix="/constraints", tags=["constraints"])
-
-
-class ConstraintedAsset(BaseModel):
-    asset_name: str
-    coef: float
-
-    @validator("coef")
-    def check_coef(cls, v):
-        assert v != 0, "Coefficient cannot be 0"
-        return v
-
-
-class Constraint(BaseModel):
-    assets: list[ConstraintedAsset]
-    operator: Literal["leq", "geq", "eq"]
-    value: float
 
 
 def get_constraints_collection(session_id: str) -> Collection:
